@@ -3,7 +3,6 @@ import pymongo
 import ssl
 import random
 import regex as re
-from textblob import Word
 
 app = Flask(__name__)
 client = pymongo.MongoClient("mongodb+srv://barak:barakh123@recipeappcluster-4ywv5.mongodb.net/test?retryWrites=true&w=majority", ssl=True, ssl_cert_reqs=ssl.CERT_NONE)
