@@ -7,12 +7,14 @@ from textblob import Word
 
 app = Flask(__name__)
 client = pymongo.MongoClient("mongodb+srv://barak:barakh123@recipeappcluster-4ywv5.mongodb.net/test?retryWrites=true&w=majority", ssl=True, ssl_cert_reqs=ssl.CERT_NONE)
-collection = client["Recipes"]["All"]
+
 
 def createRegex(data):
     return "(" + "|".join(data) + ")"
 
-def getRecipes(ingredients, courses, cuisines, diets, number, time):
+def getRecipes(ingredients, courses, cuisines, diets, number, time, c):
+
+    collection = client["Recipes"]["All"]
 
     recipes = []
 
@@ -80,6 +82,20 @@ def findByIngredients(number, time):
     recipes = getRecipes(ingredients, courses, cuisines, diets, number, time)
 
     return jsonify({"numResults": str(len(recipes)), "response": recipes})
+
+@app.route('/ingredients/aisle=<string:aisle>', methods=['GET'])
+def getIngredientsByAisle(aisle):
+    if aisle is None: return
+
+    collection = client["Aisles"]["All"]
+    item = collection.find_one({"aisle": aisle})
+
+    if item is not None:
+        ingredients = item['ingredients']
+    else:
+        ingredients = []
+
+    return jsonify({"ingredients": ingredients})
 
 if __name__ == "__main__":
     app.run(debug=True)

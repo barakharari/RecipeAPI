@@ -199,31 +199,23 @@ def tasteOfHomeCreateRecipe(soup, courses, cuisines, diets):
 #         obj["recipeUrls"] = list(set(obj["recipeUrls"]))
 #         pickle.dump(obj, f)
 
-obj = {"recipeUrls": [], "collectionTitles": []}
-with open("urls.pickle", 'rb') as f:
-    obj = pickle.load(f)
-    print("Num recipes: " + str(len(obj["recipeUrls"])))
+# obj = {"recipeUrls": [], "collectionTitles": []}
+# with open("urls.pickle", 'rb') as f:
+#     obj = pickle.load(f)
+#     print("Num recipes: " + str(len(obj["recipeUrls"])))
+# 
+# recipeURLs = obj["recipeUrls"]
+#
+# recipes = []
 
-recipeURLs = obj["recipeUrls"]
-
-recipes = []
-
-for i in range(5270, len(recipeURLs)):
-    page = requests.get(recipeURLs[i], headers=headers).text
-    soup = BeautifulSoup(page, "lxml")
-    rec = tasteOfHomeCreateRecipe(soup, [], [], [])
-    if rec is not None:
-        recipes.append(rec)
-    if len(recipes) % 50 == 0:
-        print(i)
-        collection.insert_many(recipes)
-        recipes = []
-
-
-
-
-
-# url = "https://www.tasteofhome.com/recipes/quick-chicken-piccata/"
-# page = requests.get(url, headers=headers).text
-# soup = BeautifulSoup(page, "lxml")
+# for i in range(5270, len(recipeURLs)):
+#     page = requests.get(recipeURLs[i], headers=headers).text
+#     soup = BeautifulSoup(page, "lxml")
+#     rec = tasteOfHomeCreateRecipe(soup, [], [], [])
+#     if rec is not None:
+#         recipes.append(rec)
+#     if len(recipes) % 50 == 0:
+#         print(i)
+#         collection.insert_many(recipes)
+#         recipes = []
 # print(tasteOfHomeCreateRecipe(soup))
